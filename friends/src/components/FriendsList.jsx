@@ -1,8 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithLoginAuth } from "./utils/axiosWithLoginAuth";
 import AddFriend from './AddFriend';
-import {NavLink} from "react-router-dom";
+import styled from 'styled-components'
 
+const FriendCard = styled.div `
+margin: 2% 5%;
+width:20%;
+text-align:center;
+background:white;
+border-radius:5px;
+border:2px solid darkgrey;
+`
+
+const Div = styled.div `
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+
+`
+
+const ButtonDiv = styled.div `
+    margin-bottom:3%;
+        
+`
+
+const EditButton = styled.button `
+    font-size:1em;
+    margin-right:3%;
+        :hover{
+            background:yellow;
+        }
+`
+
+const DeleteButton = styled.button `
+    font-size:1em;
+        :hover{
+            background:red;
+            color:white;
+        }
+`
 
 const FriendsList = () => {
     const [friends, setFriends] = useState([])
@@ -20,28 +56,25 @@ const FriendsList = () => {
       
       getFriends();
     },[]);
-
-
-    const logout = () => {
-        localStorage.removeItem("token");
-    }
     
         return (
-            
-            <div>
+            <>
                 <AddFriend friends={friends}/>
-                {friends.map(friend => (
-                    <div key={friend.id}>
-                        <h1>{friend.name}</h1>
-                        <p>Age: {friend.age}</p>
-                        <p>Email: {friend.email}</p>
-                    </div>
-                ))}
-                <NavLink to='/login'>
-                    <button onClick={logout}>Log Out</button>
-                </NavLink>
-            </div>
-            
+                <Div>
+                    {friends.map(friend => (
+                        <FriendCard key={friend.id}>
+                            <h2>{friend.name}</h2>
+                            <p>Age: {friend.age}</p>
+                            <p>Email: {friend.email}</p>
+                            <ButtonDiv>
+                                <EditButton>Edit Info</EditButton>
+                                <DeleteButton>Delete</DeleteButton>
+                            </ButtonDiv>
+                        </FriendCard>
+                    ))}
+                    
+                </Div>
+            </>
         )
 }
 
